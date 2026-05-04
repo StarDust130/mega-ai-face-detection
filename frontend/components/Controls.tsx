@@ -42,7 +42,7 @@ export function Controls({ isActive, onToggle, status }: ControlsProps) {
         }
         className={`neobrutalism-btn whitespace-nowrap cursor-pointer text-[10px] sm:text-xs md:text-sm px-3 md:px-6 py-1.5 sm:py-2 ${isActive ? "neobrutalism-btn-danger" : "neobrutalism-btn-primary"}`}
       >
-        {isActive ? "Stop" : "Start Tracking"}
+        {isActive ? "Stop" : "Start Camera"}
       </button>
     </div>
   );

@@ -48,7 +48,12 @@ export function Camera({ onFrame, isActive }: CameraProps) {
             if (context && videoRef.current.videoWidth > 0) {
               canvasRef.current.width = videoRef.current.videoWidth;
               canvasRef.current.height = videoRef.current.videoHeight;
+              // Unmirror front-camera frames before sending to backend.
+              context.save();
+              context.translate(canvasRef.current.width, 0);
+              context.scale(-1, 1);
               context.drawImage(videoRef.current, 0, 0);
+              context.restore();
 
               // Extract base64 jpeg
               const frame = canvasRef.current.toDataURL("image/jpeg", 0.5);
@@ -88,6 +93,7 @@ export function Camera({ onFrame, isActive }: CameraProps) {
         autoPlay
         playsInline
         muted
+        style={{ transform: "scaleX(-1)" }}
         className="w-full h-full object-cover"
       />
       <canvas ref={canvasRef} className="hidden" />

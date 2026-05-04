@@ -1,7 +1,9 @@
 # 🎬 Mega AI Face Detection
 
+
 <div align="center">
-  <video src="./frontend/public/bg.mp4" autoplay loop muted playsinline width="100%"></video>
+  <img src="./frontend/public/bg.gif" width="100%" alt="Mega AI Face Detection Demo">
+</div>
 
   <br />
 
@@ -38,7 +40,8 @@
 
 ---
 <div id="tech-stack"></div>
-## 🛠️ Tech Used
+
+###  🛠️ Tech Used
 
 - **Frontend**: Next.js 16 + React 19 + Tailwind
 - **Backend**: FastAPI + Python 3.10

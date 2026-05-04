@@ -21,7 +21,7 @@ def draw_bounding_box(image: Image.Image, roi: tuple) -> Image.Image:
     """🖍️ Draw bounding box on the image"""
     x, y, w, h = roi
     draw = ImageDraw.Draw(image)
-    draw.rectangle([x, y, x + w, y + h], outline="#ff90e8", width=4)
+    draw.rectangle([x, y, x + w, y + h], outline="#3b82f6", width=4)
     return image
 
 
