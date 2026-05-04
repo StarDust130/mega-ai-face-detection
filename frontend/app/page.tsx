@@ -99,7 +99,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen px-3 py-3">
+    <main className="md:min-h-screen px-3 py-3">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         {/* Header */}
         <header className="neobrutalism-box w-full bg-white px-4 py-3 md:px-6 md:py-4">
@@ -202,7 +202,7 @@ export default function Home() {
         )}
 
         {/* Footer */}
-        <footer className="relative mt-16 mb-4 flex  items-start justify-between gap-4 border-t-4 border-black pt-4 text-left text-sm font-bold uppercase flex-row md:items-center">
+        <footer className="relative mt-16 mb-4 flex  items-start justify-between gap-4 border-t-4 border-black pt-4 text-left  font-bold uppercase flex-row md:items-center">
           {/* The GIF absolutely positioned to run exactly on top of the right side of the border */}
           <div className="absolute right-4 -top-12 md:right-8 md:-top-16">
             <Image
@@ -230,7 +230,7 @@ export default function Home() {
               href="https://chandrashekhar.me"
               target="_blank"
               rel="noopener noreferrer"
-              className="neobrutalism-box inline-block !border-2 px-2 py-1 text-[#ef4444] transition-colors hover:bg-[#ef4444] hover:text-blue-500"
+              className="neobrutalism-box inline-block !border-2 px-2 py-1 text-[#ef4444] transition-colors hover:bg-[#ef4444] hover:text-blue-500 "
             >
               Chandrashekhar
             </Link>
