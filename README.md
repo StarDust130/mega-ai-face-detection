@@ -10,11 +10,11 @@
   <br />
 
   <h3>
-    <a href="https://mega-ai-face-detection.vercel.app/">🌐 Live</a>
+    <a href="https://mega-ai-face-detection.vercel.app/" target="_blank" noreferrer="noreferrer noopener">🌐 Live</a>
     <span> · </span>
-    <a href="https://github.com/StarDust130/mega-ai-face-detection">⭐ Code</a>
+    <a href="#tech-stack">⚙️ Tech Stack</a>
     <span> · </span>
-    <a href="https://chandrashekhar.me">👤 Creator</a>
+    <a href="https://chandrashekhar.me" target="_blank" noreferrer="noreferrer noopener">👤 Creator</a>
   </h3>
 </div>
 
@@ -37,7 +37,7 @@
 ![Architecture](./frontend/public/architecture.png)
 
 ---
-
+<div id="tech-stack"></div>
 ## 🛠️ Tech Used
 
 - **Frontend**: Next.js 16 + React 19 + Tailwind
@@ -142,11 +142,12 @@ SELECT * FROM roi_data LIMIT 5;
 
 ---
 
-## 🤖 AI Used
+## 🤖 AI Stack
 
-- **GitHub Copilot** - WebSocket, React patterns
-- **Claude** - Architecture, docs
-
+| Intelligence | Core Contribution |
+| :--- | :--- |
+| ✨ **Gemini 3.1** | UI/UX refinement, edge-case generation  |
+| 🧠 **ChatGPT 5.3** | Logic optimization, complex reasoning  |
 ---
 
 ## ⭐ Like It?
@@ -158,3 +159,13 @@ SELECT * FROM roi_data LIMIT 5;
 ```
 Made with ❤️ by Chandrashekhar
 ```
+
+<br />
+
+<div align="center">
+ <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" width="100%">
+  
+  <h4><i>"The world rewards execution, not ideas. Keep shipping."</i> ⚡</h4>
+  
+  <p>🛠️ Built with relentless focus.</p>
+</div>
