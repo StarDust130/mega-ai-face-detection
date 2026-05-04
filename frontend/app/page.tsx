@@ -7,6 +7,7 @@ import { Controls } from "../components/Controls";
 import { WSClient } from "../utils/ws";
 import Image from "next/image";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
 
 export default function Home() {
   const [isActive, setIsActive] = useState(false);
@@ -214,15 +215,15 @@ export default function Home() {
             />
           </div>
 
-          <a
-            href="https://github.com/StarDust130/mega-ai-face-detection"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="neobrutalism-btn bg-[#e2e8f0] text-xs"
-          >
-            ⭐ View on GitHub
-          </a>
-
+         <Link
+  href="https://github.com/StarDust130/mega-ai-face-detection"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="neobrutalism-btn flex items-center justify-center gap-2 bg-[#e2e8f0] px-4 py-2 text-xs font-bold uppercase transition-colors hover:bg-black hover:text-white"
+>
+  <FaGithub size={16} />
+  <span>View on GitHub</span>
+</Link>
           <span>
             <span className="text-xs hidden md:flex">Created by⤵️</span>{" "}
             <Link

@@ -1,5 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
+import { MdFullscreen, MdFullscreenExit, MdStop } from "react-icons/md";
+import { BsFillCircleFill } from "react-icons/bs";
 
 interface VideoFeedProps {
   imageSrc: string | null;
@@ -110,21 +112,27 @@ export function VideoFeed({
   return (
     <div
       ref={containerRef}
-      className={`relative h-[50vh] w-full aspect-video overflow-hidden neobrutalism-box bg-[#1f1f1f] transition-all duration-300 ease-in-out ${
+      className={`relative h-[60vh] w-full aspect-video overflow-hidden neobrutalism-box bg-[#1f1f1f] transition-all duration-300 ease-in-out ${
         hasFace && !isFullscreen ? "ring-4 ring-emerald-400" : ""
       } ${isFullscreen ? "!border-0 !rounded-none !shadow-none" : ""}`}
     >
       {/* Top Badges */}
       <div className="absolute left-2 top-2 sm:left-4 sm:top-4 z-20 flex flex-wrap items-center gap-2 sm:gap-3">
-        <span className="neobrutalism-box !border-2 px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-          {status === "live"
-            ? "🟢 Live"
-            : status === "connecting"
-              ? "🟡 Connecting"
-              : "🔴 Off"}
+        <span className="neobrutalism-box !border-2 px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2">
+          <BsFillCircleFill
+            className={`${status === "live" ? "text-emerald-500" : status === "connecting" ? "text-yellow-400" : "text-red-500"} text-[10px] sm:text-xs`}
+          />
+          <span>
+            {status === "live"
+              ? "Live"
+              : status === "connecting"
+                ? "Connecting"
+                : "Off"}
+          </span>
         </span>
-        <span className="hidden sm:block neobrutalism-box !border-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider">
-          {frameCount > 0 ? `Frame ${frameCount}` : "Waiting"}
+        <span className="hidden sm:block neobrutalism-box !border-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2">
+         
+          <span>{frameCount > 0 ? `Frame ${frameCount}` : "Waiting"}</span>
         </span>
       </div>
 
@@ -138,20 +146,25 @@ export function VideoFeed({
               }
               onToggle();
             }}
-            className="neobrutalism-btn !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 neobrutalism-btn-danger text-[10px] sm:text-xs hover:bg-black"
+            className="neobrutalism-btn !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 neobrutalism-btn-danger text-[10px] sm:text-xs hover:bg-black inline-flex items-center gap-2"
             title="Stop Camera & Exit Fullscreen"
           >
-            ⏹ <span className="hidden sm:inline">Stop</span>
+            <MdStop className="text-base sm:text-lg" />
+            <span className="hidden sm:inline">Stop</span>
           </button>
         )}
         <button
           onClick={toggleFullscreen}
-          className="neobrutalism-btn cursor-pointer !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 text-[10px] sm:text-xs"
+          className="neobrutalism-btn cursor-pointer !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 text-[10px] sm:text-xs inline-flex items-center gap-2"
           title="Toggle Fullscreen"
         >
-          {isFullscreen ? "↙ " : "⛶ "}{" "}
+          {isFullscreen ? (
+            <MdFullscreenExit className="text-base sm:text-lg" />
+          ) : (
+            <MdFullscreen className="text-base sm:text-lg" />
+          )}
           <span className="hidden sm:inline">
-            {isFullscreen ? "Exit" : `${" "}Fullscreen`}
+            {isFullscreen ? "Exit" : "Fullscreen"}
           </span>
         </button>
       </div>
@@ -182,8 +195,11 @@ export function VideoFeed({
             className="h-full w-full object-contain opacity-0 transition-opacity duration-300 ease-out animate-[fadeIn_300ms_ease-out_forwards]"
           />
           {roi && (
-            <div className="absolute right-4 bottom-4 z-20 animate-[floatBadge_1s_ease-in-out_infinite] neobrutalism-box !border-2 bg-[#22c55e] px-3 py-1.5 text-xs font-bold uppercase">
-              Face Detected [ {roi.w}x{roi.h} ]
+            <div className="absolute right-4 bottom-4 z-20 animate-[floatBadge_1s_ease-in-out_infinite] neobrutalism-box !border-2 bg-[#22c55e] px-3 py-1.5 text-xs font-bold uppercase inline-flex items-center gap-2">
+           
+              <span>
+                Face Detected [ {roi.w}x{roi.h} ]
+              </span>
             </div>
           )}
         </div>
