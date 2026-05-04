@@ -1,17 +1,25 @@
 # 🎬 Mega AI Face Detection
 
-<video width="100%" autoplay muted loop>
-  <source src="./frontend/public/bg.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<div align="center">
+  <video src="./frontend/public/bg.mp4" autoplay loop muted playsinline width="100%"></video>
 
-> Show your face, get AI-powered compliments! ✨ Real-time face detection with WebSocket streaming.
+  <br />
 
-**[🌐 Live](https://mega-ai-face-detection.vercel.app/)** • **[⭐ Code](https://github.com/StarDust130/mega-ai-face-detection)** • **[👤 Creator](https://chandrashekhar.me)**
+  > Show your face, get AI-powered compliments! ✨ Real-time face detection with WebSocket streaming.
+
+  <br />
+
+  <h3>
+    <a href="https://mega-ai-face-detection.vercel.app/">🌐 Live</a>
+    <span> · </span>
+    <a href="https://github.com/StarDust130/mega-ai-face-detection">⭐ Code</a>
+    <span> · </span>
+    <a href="https://chandrashekhar.me">👤 Creator</a>
+  </h3>
+</div>
 
 ---
 
----
 
 ## ✨ What It Does
 
@@ -23,6 +31,7 @@
 6. **🎉 Compliments** → AI praise every 3-5 seconds
 
 ---
+
 ## 🏗️ Architecture
 
 ![Architecture](./frontend/public/architecture.png)
@@ -81,8 +90,6 @@ npm run dev
 DATABASE_URL=postgresql://user:pass@host:5432/dbname
 NEXT_PUBLIC_API_URL=ws://localhost:8000
 ```
-
-
 
 ---
 
