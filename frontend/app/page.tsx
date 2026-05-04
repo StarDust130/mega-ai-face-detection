@@ -32,7 +32,7 @@ export default function Home() {
   // Connect WebSocket when active
   useEffect(() => {
     if (isActive) {
-      wsClient.current = new WSClient("ws://localhost:8000/ws/video");
+      wsClient.current = new WSClient(process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws");
       wsClient.current.connect(
         (dataRaw) => {
           const data = dataRaw as {

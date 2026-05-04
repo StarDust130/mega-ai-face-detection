@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import os
@@ -6,9 +7,17 @@ import asyncio
 
 logger = logging.getLogger(__name__)
 
-# 🗄️ Database config (use env var in production)
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql://postgres:thor130@127.0.0.1:5433/face_detection")
+
+# Load variables from .env into the environment
+load_dotenv()
+
+# Fetch the variable with NO hardcoded fallback
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Fail fast if the variable is missing
+if not DATABASE_URL:
+    raise ValueError(
+        "CRITICAL Error: DATABASE_URL environment variable is missing.")
 
 
 def get_connection():
