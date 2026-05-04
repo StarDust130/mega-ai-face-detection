@@ -1,75 +1,83 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f0f0f0;
-  --foreground: #000;
+  --background: #fbf0d9;
+  --foreground: #1f1f1f;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* 🎨 Neubrutalism Styles */
-.neubrutalism-box {
+.neobrutalism-box {
   background-color: #ffffff;
-  border: 4px solid #000000;
-  box-shadow: 8px 8px 0px #000000;
-  border-radius: 0;
+  border: 3px solid #1f1f1f;
+  box-shadow: 4px 4px 0px 0px #1f1f1f;
+  border-radius: 2px;
 }
 
-.neubrutalism-button {
-  display: inline-block;
-  background-color: #ff90e8;
-  border: 4px solid #000000;
-  box-shadow: 4px 4px 0px #000000;
-  padding: 12px 24px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #000;
-  cursor: pointer;
+.neobrutalism-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border: 3px solid #1f1f1f;
+  box-shadow: 3px 3px 0px 0px #1f1f1f;
+  border-radius: 2px;
   transition: all 0.1s ease-in-out;
-  border-radius: 0;
-}
-
-.neubrutalism-button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px #000000;
-}
-
-.neubrutalism-button.stop {
-  background-color: #ff5252;
-}
-
-.neubrutalism-title {
-  background-color: #ffd83b;
-  display: inline-block;
   padding: 8px 16px;
-  border: 4px solid #000;
-  box-shadow: 6px 6px 0px #000;
-  transform: rotate(-1deg);
+  text-transform: uppercase;
+  color: #1f1f1f;
+  background-color: #ffffff;
+}
+
+.neobrutalism-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #1f1f1f;
+}
+
+.neobrutalism-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px #1f1f1f;
+}
+
+.neobrutalism-btn-primary {
+  background-color: #eab308; /* Yellow */
+}
+
+.neobrutalism-btn-primary:hover {
+  background-color: #facc15;
+}
+
+.neobrutalism-btn-danger {
+  background-color: #ef4444; /* Red */
+  color: white;
+}
+
+.neobrutalism-btn-success {
+  background-color: #22c55e;
+  color: white;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: scale(0.985);
   }
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
 
 @keyframes floatBadge {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translateY(0px) scale(1);
   }
   50% {
-    transform: translateY(-3px);
+    transform: translateY(-2px) scale(1.05);
   }
 }

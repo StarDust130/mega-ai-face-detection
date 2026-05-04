@@ -18,3 +18,6 @@ app.include_router(websocket_router)
 @app.get("/")
 def home():
     return {"message": "Backend running 🚀"}
+
+
+# uvicorn app.main:app --reload
