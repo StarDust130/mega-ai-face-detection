@@ -3,6 +3,7 @@ import logging
 import json
 import base64
 import binascii
+import asyncio
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
@@ -53,13 +54,10 @@ async def video_websocket(websocket: WebSocket):
                              traceback.format_exc())
                 continue
 
-            logger.info(f"➡️ Frame received ({len(base64_frame)} chars)")
-
+            # Removed per-frame logging to eliminate latency bottlenecks
             if not _is_base64_image(base64_frame):
-                logger.warning("⚠️ Invalid base64 frame — skipping")
                 try:
                     await websocket.send_text(json.dumps({"image": "", "roi": None}))
-                    logger.info("⬅️ Sent skip response for invalid frame")
                 except Exception:
                     logger.warning(
                         "⚠️ Failed to send skip response:\n" + traceback.format_exc())
@@ -99,7 +97,8 @@ async def video_websocket(websocket: WebSocket):
                         logger.error("❌ Failed to draw bbox:\n" +
                                      traceback.format_exc())
                     try:
-                        await insert_roi(x, y, w, h)
+                        # Background the DB insert so it doesn't block the video stream!
+                        asyncio.create_task(insert_roi(x, y, w, h))
                     except Exception:
                         logger.error("❌ DB insert error:\n" +
                                      traceback.format_exc())
@@ -112,8 +111,6 @@ async def video_websocket(websocket: WebSocket):
                                  traceback.format_exc())
                     processed_base64 = base64_frame
 
-                logger.info("✅ Frame processed")
-
             except Exception:
                 logger.error("❌ Unexpected processing error:\n" +
                              traceback.format_exc())
@@ -123,7 +120,6 @@ async def video_websocket(websocket: WebSocket):
             try:
                 payload = {"image": processed_base64, "roi": response_roi}
                 await websocket.send_text(json.dumps(payload))
-                logger.info("⬅️ Response sent to client")
             except WebSocketDisconnect:
                 logger.info("❌ Client disconnected during send")
                 break
