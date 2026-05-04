@@ -78,9 +78,9 @@ export function Camera({ onFrame, isActive }: CameraProps) {
   }, [isActive, onFrame]);
 
   return (
-    <div className="relative w-full aspect-video bg-black neubrutalism-box">
+    <div className="relative w-full aspect-video bg-slate-900 rounded-lg overflow-hidden premium-box border-none">
       {!isActive && (
-        <div className="absolute inset-0 bg-[#ffd83b] flex items-center justify-center z-10 font-bold text-lg md:text-2xl tracking-widest text-black uppercase">
+        <div className="absolute inset-0 bg-slate-100 flex items-center justify-center z-10 font-medium text-sm md:text-base text-slate-500">
           Camera Off 😴
         </div>
       )}
