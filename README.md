@@ -12,7 +12,7 @@
   <br />
 
   <h3>
-    <a href="https://mega-ai-face-detection.vercel.app/" target="_blank" noreferrer="noreferrer noopener">🌐 Live</a>
+    <a href="https://finalquest.app" target="_blank" noreferrer="noreferrer noopener">🌐 Live</a>
     <span> · </span>
     <a href="#tech-stack">⚙️ Tech Stack</a>
     <span> · </span>
