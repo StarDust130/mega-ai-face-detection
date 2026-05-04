@@ -30,54 +30,54 @@ export default function Home() {
   const angleMessages = useRef([]);
 
   // Connect WebSocket when active
-useEffect(() => {
-  if (isActive) {
-    const WS_URL =
-      process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws/video";
+  useEffect(() => {
+    if (isActive) {
+      const WS_URL =
+        process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws/video";
 
-    console.log("Connecting to WS:", WS_URL);
+      console.log("Connecting to WS:", WS_URL);
 
-    wsClient.current = new WSClient(WS_URL);
+      wsClient.current = new WSClient(WS_URL);
 
-    wsClient.current.connect(
-      (dataRaw) => {
-        const data = dataRaw as {
-          image?: string;
-          roi?: { x: number; y: number; w: number; h: number };
-        };
+      wsClient.current.connect(
+        (dataRaw) => {
+          const data = dataRaw as {
+            image?: string;
+            roi?: { x: number; y: number; w: number; h: number };
+          };
 
-        setFrameCount((current) => current + 1);
+          setFrameCount((current) => current + 1);
 
-        if (data?.image) {
-          setProcessedFrame(data.image);
-        }
+          if (data?.image) {
+            setProcessedFrame(data.image);
+          }
 
-        if ("roi" in (data ?? {})) {
-          setRoi(data.roi ?? null);
-        }
-      },
-      () => {
-        console.log("WS Connected ✅");
-        setStatus("live");
-      },
-      () => {
-        console.log("WS Closed ❌");
-        setStatus("error");
-      },
-      (err) => {
-        console.error("WS Error ❌", err);
-        setStatus("error");
-        setAiFeedback("Backend connection issue.");
-      },
-    );
-  }
-
-  return () => {
-    if (wsClient.current) {
-      wsClient.current.disconnect();
+          if ("roi" in (data ?? {})) {
+            setRoi(data.roi ?? null);
+          }
+        },
+        () => {
+          console.log("WS Connected ✅");
+          setStatus("live");
+        },
+        () => {
+          console.log("WS Closed ❌");
+          setStatus("error");
+        },
+        (err) => {
+          console.error("WS Error ❌", err);
+          setStatus("error");
+          setAiFeedback("Backend connection issue.");
+        },
+      );
     }
-  };
-}, [isActive]);
+
+    return () => {
+      if (wsClient.current) {
+        wsClient.current.disconnect();
+      }
+    };
+  }, [isActive]);
 
   const handleFrame = useCallback((base64Image: string) => {
     if (
@@ -225,15 +225,15 @@ useEffect(() => {
             />
           </div>
 
-         <Link
-  href="https://github.com/StarDust130/mega-ai-face-detection"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="neobrutalism-btn flex items-center justify-center gap-2 bg-[#e2e8f0] px-4 py-2 text-xs font-bold uppercase transition-colors hover:bg-black hover:text-white"
->
-  <FaGithub size={16} />
-  <span>View on GitHub</span>
-</Link>
+          <Link
+            href="https://github.com/StarDust130/mega-ai-face-detection"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="neobrutalism-btn flex items-center justify-center gap-2 bg-[#e2e8f0] px-4 py-2 text-xs font-bold uppercase transition-colors hover:bg-black hover:text-white"
+          >
+            <FaGithub size={16} />
+            <span>View on GitHub</span>
+          </Link>
           <span>
             <span className="text-xs hidden md:flex">Created by⤵️</span>{" "}
             <Link
