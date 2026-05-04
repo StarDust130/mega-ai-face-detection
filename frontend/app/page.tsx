@@ -119,17 +119,29 @@ return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
       {/* Header */}
       <header className="neobrutalism-box w-full bg-white px-4 py-3 md:px-6 md:py-4">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <div className="flex w-full items-center justify-center sm:w-auto sm:justify-start">
-            {/* Brutalist Text Logo for AI Face Detection */}
-            <h1 className="flex items-center gap-2 text-2xl font-black uppercase tracking-tighter text-black ">
-              <span className="inline-block neobrutalism-btn neobrutalism-btn-primary  text-white shadow-[3px_3px_0px_rgba(0,0,0,1)]">
-                AI
-              </span>
-              <span>Face Detection</span>
+        {/* Fix: Unified flex-row layout for all devices to keep logo and controls on one line */}
+        <div className="flex flex-row items-center justify-between gap-4 md:gap-6">
+          {/* Left Column: Logo - Integrated text and structured badge, NO IMAGES */}
+          <div className="flex items-center justify-start gap-2 md:gap-3">
+            {/* Fix: Refined 'AI' text badge: sharp corners, precise neubrutalist texture, centered bold white text */}
+            <Image
+              src="/icon.png"
+              alt="AI Logo"
+              width={32}
+              height={32}
+              className="object-contain md:h-8 md:w-8"
+            />
+            {/* Fix: Clean, bold text: tight tracking and uppercase for cool UI */}
+            <h1 className="flex items-center text-lg font-black uppercase tracking-tighter text-black md:text-3xl">
+              Face Detection
             </h1>
           </div>
-          <div className="flex w-full justify-center sm:w-auto sm:justify-end">
+
+          {/* Center Column: Empty - Balancing the logo and controls for 'normal' UI */}
+          <div className="hidden md:flex flex-grow justify-center"></div>
+
+          {/* Right Column: Controls - Two structured buttons, NO IMAGES */}
+          <div className="flex items-center justify-end">
             <Controls
               isActive={isActive}
               onToggle={handleToggle}
@@ -192,6 +204,11 @@ return (
             Start camera to see your cool face 😎
           </h2>
           <button
+            title={
+              isActive
+                ? "Stop camera and detection"
+                : "Start camera to begin AI detection"
+            }
             onClick={handleToggle}
             className="neobrutalism-btn neobrutalism-btn-primary mt-4 flex cursor-pointer items-center gap-2 px-8 py-3 text-lg transition-colors hover:bg-black hover:text-white"
           >

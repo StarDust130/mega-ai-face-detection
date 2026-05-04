@@ -35,7 +35,7 @@ export function Controls({ isActive, onToggle, status }: ControlsProps) {
         }
         className={`neobrutalism-btn whitespace-nowrap cursor-pointer text-xs md:text-sm px-3 md:px-6 py-2 ${isActive ? "neobrutalism-btn-danger" : "neobrutalism-btn-primary"}`}
       >
-        {isActive ? "Stop Tracking" : "Start Tracking"}
+        {isActive ? "Stop Camera" : "Start Camera"}
       </button>
     </div>
   );
