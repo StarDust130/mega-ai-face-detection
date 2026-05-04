@@ -1,0 +1,25 @@
+<svg width="540" height="160" viewBox="0 0 540 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mega AI logo">
+  <defs>
+    <linearGradient id="megaSymbolGradient" x1="20" y1="24" x2="132" y2="142" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B8A4D9"/>
+      <stop offset="1" stop-color="#7A9CC6"/>
+    </linearGradient>
+    <linearGradient id="megaAiGradient" x1="440" y1="36" x2="440" y2="122" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFB199"/>
+      <stop offset="1" stop-color="#FF8A65"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(0 0)">
+    <path d="M105 32 A53 53 0 1 0 52 132" stroke="url(#megaSymbolGradient)" stroke-width="22" stroke-linecap="round"/>
+    <path d="M125 64 A52 52 0 0 1 73 142" stroke="url(#megaSymbolGradient)" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="126" cy="36" r="9" fill="#FF8A65"/>
+  </g>
+
+  <text x="180" y="106" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="102" font-weight="500" letter-spacing="-2">
+    Mega
+  </text>
+  <text x="430" y="106" fill="url(#megaAiGradient)" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="102" font-weight="500" letter-spacing="-2">
+    AI
+  </text>
+</svg>
