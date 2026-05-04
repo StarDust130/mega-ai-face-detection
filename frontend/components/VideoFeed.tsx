@@ -131,7 +131,6 @@ export function VideoFeed({
           </span>
         </span>
         <span className="hidden sm:block neobrutalism-box !border-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2">
-         
           <span>{frameCount > 0 ? `Frame ${frameCount}` : "Waiting"}</span>
         </span>
       </div>
@@ -176,7 +175,21 @@ export function VideoFeed({
         {displayedFeedback}
       </div>
 
-      {showLoading ? (
+      {status === "error" ? (
+        <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#ff5252] p-4 text-center border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+          <div className="text-2xl font-black uppercase tracking-wider text-black">
+            Server Issue 🚨
+          </div>
+          <div className="text-sm font-bold uppercase text-black max-w-[80%]">
+            Could not connect to the backend API. 😭
+          </div>
+
+          <span className="text-xs font-bold uppercase tracking-wide text-black">
+            Damn my cheap digital ocean server... 😅
+          </span>
+
+        </div>
+      ) : showLoading ? (
         <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#fbf0d9] p-4 text-center">
           {/* Normal, simple spinner with adjusted thickness for better UI scaling */}
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-black/10 border-t-black" />
@@ -196,7 +209,6 @@ export function VideoFeed({
           />
           {roi && (
             <div className="absolute right-4 bottom-4 z-20 animate-[floatBadge_1s_ease-in-out_infinite] neobrutalism-box !border-2 bg-[#22c55e] px-3 py-1.5 text-xs font-bold uppercase inline-flex items-center gap-2">
-           
               <span>
                 Face Detected [ {roi.w}x{roi.h} ]
               </span>
