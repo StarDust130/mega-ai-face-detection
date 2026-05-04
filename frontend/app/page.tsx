@@ -15,7 +15,7 @@ export default function Home() {
   >("idle");
   const [processedFrame, setProcessedFrame] = useState<string | null>(null);
   const [frameCount, setFrameCount] = useState(0);
-  const [aiFeedback, setAiFeedback] = useState("Looking for your cool face...");
+  const [aiFeedback, setAiFeedback] = useState("You look stunning today! ✨");
   const [roi, setRoi] = useState<{
     x: number;
     y: number;
@@ -25,20 +25,8 @@ export default function Home() {
 
   const wsClient = useRef<WSClient | null>(null);
 
-  const positiveMessages = useRef([
-    "You look stunning today!",
-    "Such a beautiful smile!",
-    "That angle looks amazing on you!",
-    "You are radiating good energy!",
-    "Absolutely flawless!",
-  ]);
-  const angleMessages = useRef([
-    "Looking for your cool face...",
-    "Adjusting parameters for perfection...",
-  ]);
-
-  const pickMessage = (list: string[]) =>
-    list[Math.floor(Math.random() * list.length)];
+  const positiveMessages = useRef([]);
+  const angleMessages = useRef([]);
 
   // Connect WebSocket when active
   useEffect(() => {
@@ -57,11 +45,6 @@ export default function Home() {
           if (Object.prototype.hasOwnProperty.call(data ?? {}, "roi")) {
             setRoi(data.roi ?? null);
           }
-          setAiFeedback(
-            data?.roi
-              ? pickMessage(positiveMessages.current)
-              : pickMessage(angleMessages.current),
-          );
         },
         () => {
           setStatus("live");
@@ -109,7 +92,7 @@ export default function Home() {
       setStatus("idle");
       setProcessedFrame(null);
       setRoi(null);
-      setAiFeedback("Looking for your cool face...");
+      setAiFeedback("You look stunning today! ✨");
       setFrameCount(0);
     }
   };
@@ -241,7 +224,7 @@ export default function Home() {
           </a>
 
           <span>
-            <span className="text-xs hidden md:flex">Created by</span>{" "}
+            <span className="text-xs hidden md:flex">Created by⤵️</span>{" "}
             <Link
               href="https://chandrashekhar.me"
               target="_blank"

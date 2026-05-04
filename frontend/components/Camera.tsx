@@ -41,7 +41,7 @@ export function Camera({ onFrame, isActive }: CameraProps) {
           });
         }
 
-        // ⏱️ Capture frame roughly every 150ms (optimized)
+        // ⏱️ Capture frame fast for real-time live feed (approx 30fps)
         intervalId = window.setInterval(() => {
           if (videoRef.current && canvasRef.current && isActive) {
             const context = canvasRef.current.getContext("2d");
@@ -51,12 +51,11 @@ export function Camera({ onFrame, isActive }: CameraProps) {
               context.drawImage(videoRef.current, 0, 0);
 
               // Extract base64 jpeg
-              const frame = canvasRef.current.toDataURL("image/jpeg", 0.6);
-              console.log("📸 Captured frame:", frame.length);
+              const frame = canvasRef.current.toDataURL("image/jpeg", 0.5);
               onFrame(frame);
             }
           }
-        }, 150);
+        }, 33);
       } catch (err) {
         console.error("Error accessing camera:", err);
       }

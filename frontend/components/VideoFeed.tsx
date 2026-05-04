@@ -26,31 +26,66 @@ export function VideoFeed({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Slow down AI feedback
-  const [displayedFeedback, setDisplayedFeedback] = useState(aiFeedback);
+  const [displayedFeedback, setDisplayedFeedback] = useState(
+    "Looking for your cool face... 👀",
+  );
+  const [fade, setFade] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isFullscreen && roi) {
-        const fullscreenCompliments = [
-          "Your smile lights up the room!",
-          "Daaaaaaaaamn! Look at you!",
-          "Looking sharp today!",
-          "Main character energy right here.",
-          "Perfection in every pixel.",
-        ];
-        // Show random compliment when fullscreen and face is detected
+    if (status !== "live") {
+      setDisplayedFeedback("Looking for your cool face... 👀");
+      return;
+    }
+
+    let isMounted = true;
+
+    const compliments = [
+      "You look stunning today! ✨",
+      "Such a beautiful smile! 😊",
+      "That angle looks amazing on you! 🔥",
+      "You are radiating good energy! 🌟",
+      "Absolutely flawless! 👑",
+      "Your vibe is absolutely immaculate! 🌈",
+      "Main character energy detected! 🎬",
+      "Looking sharp and ready to conquer! 🚀",
+      "The camera naturally loves you! 📸",
+      "10/10 perfection right there! 💯",
+      "Just stepped out of a fashion magazine! 💅",
+      "Incredible style and presence! 🤩",
+      "Your skin is completely glowing! 💖",
+      "Unmatched confidence levels! ⚡",
+      "Iconic look! Period. 💫",
+    ];
+
+    let timeoutId: NodeJS.Timeout;
+
+    const cycleCompliment = () => {
+      // Trigger fade out
+      setFade(true);
+
+      setTimeout(() => {
+        if (!isMounted) return;
+        // Change text while faded out
         setDisplayedFeedback(
-          fullscreenCompliments[
-            Math.floor(Math.random() * fullscreenCompliments.length)
-          ],
+          compliments[Math.floor(Math.random() * compliments.length)],
         );
-      } else {
-        setDisplayedFeedback(aiFeedback);
-      }
-    }, 2000); // Only update every 2 seconds to make it slower
-    return () => clearTimeout(timer);
-  }, [aiFeedback, isFullscreen, roi]);
+        // Trigger fade in
+        setFade(false);
+
+        // Schedule next cycle between 3 and 5 seconds
+        const nextDelay = Math.random() * 2000 + 3000;
+        timeoutId = setTimeout(cycleCompliment, nextDelay);
+      }, 300); // 300ms fade duration
+    };
+
+    // Initial 5 second delay before first compliment
+    timeoutId = setTimeout(cycleCompliment, 5000);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [status]);
 
   const toggleFullscreen = () => {
     if (!containerRef.current) return;
@@ -114,15 +149,17 @@ export function VideoFeed({
           className="neobrutalism-btn cursor-pointer !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 text-[10px] sm:text-xs"
           title="Toggle Fullscreen"
         >
-          {isFullscreen ? "↙" : "⛶"}{" "}
+          {isFullscreen ? "↙ " : "⛶ "}{" "}
           <span className="hidden sm:inline">
-            {isFullscreen ? "Exit" : "Fullscreen"}
+            {isFullscreen ? "Exit" : `${" "}Fullscreen`}
           </span>
         </button>
       </div>
 
       {/* Bottom Feedback Badge */}
-      <div className="hidden sm:block absolute bottom-4 left-4 z-20 max-w-[85%] neobrutalism-box !border-2 bg-[#facc15] px-4 py-2.5 text-sm font-bold uppercase tracking-wider text-black transition-all duration-500">
+      <div
+        className={`hidden sm:block absolute bottom-4 left-4 z-20 max-w-[85%] neobrutalism-box !border-2 bg-[#facc15] px-4 py-2.5 text-sm font-bold uppercase tracking-wider text-black transition-opacity duration-300 ${fade ? "opacity-0" : "opacity-100"}`}
+      >
         {displayedFeedback}
       </div>
 
