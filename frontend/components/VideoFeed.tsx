@@ -75,26 +75,26 @@ export function VideoFeed({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full aspect-video overflow-hidden neobrutalism-box bg-[#1f1f1f] transition-all duration-300 ease-in-out ${
+      className={`relative h-[50vh] w-full aspect-video overflow-hidden neobrutalism-box bg-[#1f1f1f] transition-all duration-300 ease-in-out ${
         hasFace && !isFullscreen ? "ring-4 ring-emerald-400" : ""
       } ${isFullscreen ? "!border-0 !rounded-none !shadow-none" : ""}`}
     >
       {/* Top Badges */}
-      <div className="absolute left-4 top-4 z-20 flex flex-wrap items-center gap-3">
-        <span className="neobrutalism-box !border-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider">
+      <div className="absolute left-2 top-2 sm:left-4 sm:top-4 z-20 flex flex-wrap items-center gap-2 sm:gap-3">
+        <span className="neobrutalism-box !border-2 px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
           {status === "live"
             ? "🟢 Live"
             : status === "connecting"
               ? "🟡 Connecting"
               : "🔴 Off"}
         </span>
-        <span className="neobrutalism-box !border-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider">
+        <span className="hidden sm:block neobrutalism-box !border-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider">
           {frameCount > 0 ? `Frame ${frameCount}` : "Waiting"}
         </span>
       </div>
 
       {/* Top Right Controls */}
-      <div className="absolute right-4 top-4 z-20 flex items-center gap-2">
+      <div className="absolute right-2 top-2 sm:right-4 sm:top-4 z-20 flex items-center gap-2">
         {isFullscreen && isActive && (
           <button
             onClick={() => {
@@ -103,36 +103,37 @@ export function VideoFeed({
               }
               onToggle();
             }}
-            className="neobrutalism-btn !border-2 !py-1.5 neobrutalism-btn-danger text-xs hover:bg-black"
+            className="neobrutalism-btn !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 neobrutalism-btn-danger text-[10px] sm:text-xs hover:bg-black"
             title="Stop Camera & Exit Fullscreen"
           >
-            ⏹ Stop
+            ⏹ <span className="hidden sm:inline">Stop</span>
           </button>
         )}
         <button
           onClick={toggleFullscreen}
-          className="neobrutalism-btn !border-2 !py-1.5 px-3 text-xs"
+          className="neobrutalism-btn cursor-pointer !border-2 !py-1 sm:!py-1.5 px-2 sm:px-3 text-[10px] sm:text-xs"
           title="Toggle Fullscreen"
         >
-          {isFullscreen ? "↙ Exit" : "⛶ Fullscreen"}
+          {isFullscreen ? "↙" : "⛶"}{" "}
+          <span className="hidden sm:inline">
+            {isFullscreen ? "Exit" : "Fullscreen"}
+          </span>
         </button>
       </div>
 
       {/* Bottom Feedback Badge */}
-      <div className="absolute bottom-4 left-4 z-20 max-w-[85%] neobrutalism-box !border-2 bg-[#facc15] px-4 py-2.5 text-sm font-bold uppercase tracking-wider text-black transition-all duration-500">
+      <div className="hidden sm:block absolute bottom-4 left-4 z-20 max-w-[85%] neobrutalism-box !border-2 bg-[#facc15] px-4 py-2.5 text-sm font-bold uppercase tracking-wider text-black transition-all duration-500">
         {displayedFeedback}
       </div>
 
       {showLoading ? (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-[#fbf0d9] text-center">
-          <div className="h-10 w-10 animate-spin border-4 border-black border-t-[#22c55e]" />
-          <div className="text-sm font-bold tracking-wide uppercase">
-            AI analyzing...
-          </div>
-          <div className="text-xs font-bold uppercase">
-            {isActive
-              ? "Waiting for the first processed frame"
-              : "Start the camera to begin detection"}
+        <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#fbf0d9] p-4 text-center">
+          {/* Normal, simple spinner with adjusted thickness for better UI scaling */}
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-black/10 border-t-black" />
+
+          {/* Short, direct text */}
+          <div className="text-xs font-bold uppercase tracking-wider text-black">
+            {isActive ? "Analyzing..." : "Standby"}
           </div>
         </div>
       ) : imageSrc ? (
