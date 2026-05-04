@@ -2,7 +2,8 @@ export class WSClient {
   socket: WebSocket | null = null;
   url: string;
   reconnectTimer: NodeJS.Timeout | null = null;
-  onMessageHandler: ((data: any) => void) | null = null;
+  onMessageHandler: ((data: Record<string, unknown> | null) => void) | null =
+    null;
   onOpenHandler: (() => void) | null = null;
   onCloseHandler: (() => void) | null = null;
   onErrorHandler: ((event: Event) => void) | null = null;
@@ -15,7 +16,7 @@ export class WSClient {
   }
 
   connect(
-    onMessage: (data: any) => void,
+    onMessage: (data: Record<string, unknown> | null) => void,
     onOpen?: () => void,
     onClose?: () => void,
     onError?: (event: Event) => void,
