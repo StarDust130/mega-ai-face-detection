@@ -6,6 +6,7 @@ import { VideoFeed } from "../components/VideoFeed";
 import { Controls } from "../components/Controls";
 import { WSClient } from "../utils/ws";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const [isActive, setIsActive] = useState(false);
@@ -200,7 +201,19 @@ return (
       )}
 
       {/* Footer */}
-      <footer className="mt-8 mb-4 flex flex-col items-center justify-between gap-4 border-t-4 border-black pt-4 text-center text-sm font-bold uppercase md:flex-row md:text-left">
+      <footer className="relative mt-16 mb-4 flex  items-start justify-between gap-4 border-t-4 border-black pt-4 text-left text-sm font-bold uppercase flex-row md:items-center">
+        {/* The GIF absolutely positioned to run exactly on top of the right side of the border */}
+        <div className="absolute right-4 -top-12 md:right-8 md:-top-16">
+          <Image
+            src="/run.webp"
+            alt="Running Animation"
+            width={48}
+            height={48}
+            className="object-contain md:h-16 md:w-16"
+            unoptimized
+          />
+        </div>
+
         <a
           href="https://github.com/StarDust130/mega-ai-face-detection"
           target="_blank"
@@ -209,16 +222,17 @@ return (
         >
           ⭐ View on GitHub
         </a>
+
         <span>
-          Created by{" "}
-          <a
+          <span className="text-xs hidden md:block">Created by</span>{" "}
+          <Link
             href="https://chandrashekhar.me"
             target="_blank"
             rel="noopener noreferrer"
-            className="neobrutalism-box inline-block mt-2 md:mt-0 !border-2 px-2 py-1 text-[#ef4444] transition-colors hover:bg-[#ef4444] hover:text-white"
+            className="neobrutalism-box inline-block !border-2 px-2 py-1 text-[#ef4444] transition-colors hover:bg-[#ef4444] hover:text-white"
           >
             Chandrashekhar
-          </a>
+          </Link>
         </span>
       </footer>
     </div>

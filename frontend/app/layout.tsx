@@ -8,7 +8,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "AI Face Detection",
+  title: "AI Face Detection - Mega AI",
   description:
     "Real-time face detection with AI feedback. Start your camera and see the magic happen!",
 };
