@@ -113,115 +113,115 @@ export default function Home() {
     }
   };
 
-  return (
-    <main className="min-h-screen px-3 py-3">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        {/* Header */}
-        <header className="neobrutalism-box w-full px-3 py-3 bg-[#90c4ff]">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
-                <Image
-                  src="/mega-ai-logo.png"
-                  alt="Mega AI Logo"
-                  width={150}
-                  height={150}
-                />
-              </div>
-            </div>
+return (
+  <main className="min-h-screen px-3 py-3">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6">
+      {/* Header */}
+      <header className="neobrutalism-box w-full bg-white px-4 py-3 md:px-6 md:py-4">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div className="flex w-full items-center justify-center sm:w-auto sm:justify-start">
+            {/* Brutalist Text Logo for AI Face Detection */}
+            <h1 className="flex items-center gap-2 text-2xl font-black uppercase tracking-tighter text-black ">
+              <span className="inline-block neobrutalism-btn neobrutalism-btn-primary  text-white shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                AI
+              </span>
+              <span>Face Detection</span>
+            </h1>
+          </div>
+          <div className="flex w-full justify-center sm:w-auto sm:justify-end">
             <Controls
               isActive={isActive}
               onToggle={handleToggle}
               status={status}
             />
           </div>
-        </header>
+        </div>
+      </header>
 
-        {isActive || status !== "idle" ? (
-          <section className="grid grid-cols-1 gap-6 lg:grid-cols-12 md:items-start">
-            {/* INPUT (30%) */}
-            <div className="order-2 flex flex-col gap-3 lg:order-1 lg:col-span-4">
-              <div className="flex items-center justify-between px-1">
-                <h2 className="text-sm font-bold uppercase tracking-wider">
-                  Source
-                </h2>
-                <span className="neobrutalism-box !border-2 bg-white px-2 py-0.5 text-[10px] font-bold uppercase">
-                  Webcam
-                </span>
-              </div>
-              <div className="w-full neobrutalism-box overflow-hidden bg-white p-2">
-                <Camera isActive={isActive} onFrame={handleFrame} />
-              </div>
+      {isActive || status !== "idle" ? (
+        <section className="grid grid-cols-1 gap-6 md:items-start lg:grid-cols-12">
+          {/* INPUT (30%) */}
+          <div className="order-2 flex flex-col gap-3 lg:order-1 lg:col-span-4">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-sm font-bold uppercase tracking-wider">
+                Source
+              </h2>
+              <span className="neobrutalism-box !border-2 bg-white px-2 py-0.5 text-[10px] font-bold uppercase">
+                Webcam
+              </span>
+            </div>
+            <div className="neobrutalism-box w-full overflow-hidden bg-white p-2">
+              <Camera isActive={isActive} onFrame={handleFrame} />
+            </div>
+          </div>
+
+          {/* OUTPUT (70%) */}
+          <div className="order-1 flex flex-col gap-3 lg:order-2 lg:col-span-8">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-sm font-bold uppercase tracking-wider">
+                Live Feed
+              </h2>
+              <span
+                className={`neobrutalism-box !border-2 px-2 py-0.5 text-[10px] font-bold uppercase ${status === "live" ? "bg-[#22c55e]" : "bg-white text-black"}`}
+              >
+                {status === "live" ? "Processing" : "Standby"}
+              </span>
             </div>
 
-            {/* OUTPUT (70%) */}
-            <div className="order-1 flex flex-col gap-3 lg:order-2 lg:col-span-8">
-              <div className="flex items-center justify-between px-1">
-                <h2 className="text-sm font-bold uppercase tracking-wider">
-                  Live Feed
-                </h2>
-                <span
-                  className={`neobrutalism-box !border-2 px-2 py-0.5 text-[10px] font-bold uppercase ${status === "live" ? "bg-[#22c55e] " : "bg-white text-black"}`}
-                >
-                  {status === "live" ? "Processing" : "Standby"}
-                </span>
-              </div>
-
-              <VideoFeed
-                imageSrc={processedFrame}
-                roi={roi}
-                isActive={showOutput}
-                status={status}
-                frameCount={frameCount}
-                aiFeedback={aiFeedback}
-                onToggle={handleToggle}
-              />
-            </div>
-          </section>
-        ) : (
-          <section className="flex flex-col items-center justify-center py-20 px-4 min-h-[50vh] text-center gap-6">
-            <Image
-              src="/dance.gif"
-              alt="Dancing Animation"
-                width={200}
-                height={200}
-             
+            <VideoFeed
+              imageSrc={processedFrame}
+              roi={roi}
+              isActive={showOutput}
+              status={status}
+              frameCount={frameCount}
+              aiFeedback={aiFeedback}
+              onToggle={handleToggle}
             />
-            <h2 className="text-2xl  font-bold uppercase tracking-tight max-w-xl leading-tight">
-              Start camera to see your cool face 😎
-            </h2>
-            <button
-              onClick={handleToggle}
-              className="neobrutalism-btn neobrutalism-btn-primary mt-4 py-3 px-8 text-lg flex gap-2 items-center cursor-pointer hover transition-colors"
-            >
-              Start Camera
-            </button>
-          </section>
-        )}
+          </div>
+        </section>
+      ) : (
+        <section className="flex min-h-[50vh] flex-col items-center justify-center gap-6 px-4 py-20 text-center">
+          <Image
+            src="/dance.gif"
+            alt="Dancing Animation"
+            width={200}
+            height={200}
+          />
+          <h2 className="max-w-xl text-2xl font-bold uppercase leading-tight tracking-tight">
+            Start camera to see your cool face 😎
+          </h2>
+          <button
+            onClick={handleToggle}
+            className="neobrutalism-btn neobrutalism-btn-primary mt-4 flex cursor-pointer items-center gap-2 px-8 py-3 text-lg transition-colors hover:bg-black hover:text-white"
+          >
+            Start Camera
+          </button>
+        </section>
+      )}
 
-        {/* Footer */}
-        <footer className="mt-8 mb-4 border-t-4 border-black pt-4 flex flex-col md:flex-row items-center justify-between gap-4 font-bold uppercase text-sm">
+      {/* Footer */}
+      <footer className="mt-8 mb-4 flex flex-col items-center justify-between gap-4 border-t-4 border-black pt-4 text-center text-sm font-bold uppercase md:flex-row md:text-left">
+        <a
+          href="https://github.com/StarDust130/mega-ai-face-detection"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="neobrutalism-btn bg-[#e2e8f0] text-xs"
+        >
+          ⭐ View on GitHub
+        </a>
+        <span>
+          Created by{" "}
           <a
-            href="https://github.com/StarDust130/mega-ai-face-detection"
+            href="https://chandrashekhar.me"
             target="_blank"
             rel="noopener noreferrer"
-            className="neobrutalism-btn text-xs bg-[#e2e8f0]"
+            className="neobrutalism-box inline-block mt-2 md:mt-0 !border-2 px-2 py-1 text-[#ef4444] transition-colors hover:bg-[#ef4444] hover:text-white"
           >
-            ⭐ View on GitHub
+            Chandrashekhar
           </a>
-          <span>
-            Created by{" "}
-            <a
-              href="https://chandrashekhar.me"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#ef4444] neobrutalism-box !border-2 px-2 py-1 hover:bg-[#ef4444] hover: transition-colors"
-            >
-              Chandrashekhar
-            </a>
-          </span>
-        </footer>
-      </div>
-    </main>
-  );
+        </span>
+      </footer>
+    </div>
+  </main>
+);
 }

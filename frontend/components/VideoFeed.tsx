@@ -28,12 +28,29 @@ export function VideoFeed({
 
   // Slow down AI feedback
   const [displayedFeedback, setDisplayedFeedback] = useState(aiFeedback);
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDisplayedFeedback(aiFeedback);
+      if (isFullscreen && roi) {
+        const fullscreenCompliments = [
+          "Your smile lights up the room!",
+          "Daaaaaaaaamn! Look at you!",
+          "Looking sharp today!",
+          "Main character energy right here.",
+          "Perfection in every pixel.",
+        ];
+        // Show random compliment when fullscreen and face is detected
+        setDisplayedFeedback(
+          fullscreenCompliments[
+            Math.floor(Math.random() * fullscreenCompliments.length)
+          ],
+        );
+      } else {
+        setDisplayedFeedback(aiFeedback);
+      }
     }, 2000); // Only update every 2 seconds to make it slower
     return () => clearTimeout(timer);
-  }, [aiFeedback]);
+  }, [aiFeedback, isFullscreen, roi]);
 
   const toggleFullscreen = () => {
     if (!containerRef.current) return;

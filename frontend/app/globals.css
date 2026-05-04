@@ -15,9 +15,9 @@ body {
 
 .neobrutalism-box {
   background-color: #ffffff;
-  border: 3px solid #1f1f1f;
-  box-shadow: 4px 4px 0px 0px #1f1f1f;
-  border-radius: 2px;
+  border: 2px solid #1f1f1f;
+  box-shadow: 2px 2px 0px 0px #1f1f1f;
+  border-radius: 4px;
 }
 
 .neobrutalism-btn {
@@ -25,9 +25,9 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  border: 3px solid #1f1f1f;
-  box-shadow: 3px 3px 0px 0px #1f1f1f;
-  border-radius: 2px;
+  border: 2px solid #1f1f1f;
+  box-shadow: 2px 2px 0px 0px #1f1f1f;
+  border-radius: 4px;
   transition: all 0.1s ease-in-out;
   padding: 8px 16px;
   text-transform: uppercase;
