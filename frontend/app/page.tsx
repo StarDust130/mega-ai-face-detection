@@ -114,21 +114,18 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen px-4 py-8 md:px-8">
+    <main className="min-h-screen px-3 py-3">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         {/* Header */}
-        <header className="neobrutalism-box w-full px-6 py-5 bg-[#ff90e8]">
+        <header className="neobrutalism-box w-full px-3 py-3 bg-[#90c4ff]">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <img
-                  src="/mega-ai-logo.svg"
+                <Image
+                  src="/mega-ai-logo.png"
                   alt="Mega AI Logo"
-                  className="h-10 object-contain"
-                  onError={(e) => {
-                    // Fallback in case logo doesn't exist yet
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
+                  width={150}
+                  height={150}
                 />
               </div>
             </div>
