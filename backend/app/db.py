@@ -21,13 +21,16 @@ if not DATABASE_URL:
 
 
 def get_connection():
-    """🔌 Get a new PostgreSQL connection"""
+    """🔌 Get a new PostgreSQL connection (force IPv4)"""
     try:
-        return psycopg2.connect(DATABASE_URL)
+        return psycopg2.connect(
+            DATABASE_URL,
+            sslmode="require",
+            options="-c inet_family=ipv4"
+        )
     except Exception as e:
         logger.error(f"❌ Database connection failed: {e}")
         return None
-
 
 def init_db():
     """🔌 Initialize PostgreSQL table"""
