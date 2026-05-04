@@ -5,6 +5,7 @@ import { Camera } from "../components/Camera";
 import { VideoFeed } from "../components/VideoFeed";
 import { Controls } from "../components/Controls";
 import { WSClient } from "../utils/ws";
+import Image from "next/image";
 
 export default function Home() {
   const [isActive, setIsActive] = useState(false);
@@ -13,7 +14,7 @@ export default function Home() {
   >("idle");
   const [processedFrame, setProcessedFrame] = useState<string | null>(null);
   const [frameCount, setFrameCount] = useState(0);
-  const [aiFeedback, setAiFeedback] = useState("Ready when you are.");
+  const [aiFeedback, setAiFeedback] = useState("Looking for your cool face...");
   const [roi, setRoi] = useState<{
     x: number;
     y: number;
@@ -23,30 +24,31 @@ export default function Home() {
 
   const wsClient = useRef<WSClient | null>(null);
 
-  const positiveMessages = [
-    "😎 Looking sharp!",
-    "🔥 Nice jawline detected",
-    "😊 Good smile!",
-    "✨ Clean face lock",
-  ];
-  const angleMessages = [
-    "🤔 Turn a bit for better angle",
-    "📐 Move closer to center",
-    "👀 Try brighter light",
-  ];
+  const positiveMessages = useRef([
+    "You look stunning today!",
+    "Such a beautiful smile!",
+    "That angle looks amazing on you!",
+    "You are radiating good energy!",
+    "Absolutely flawless!",
+  ]);
+  const angleMessages = useRef([
+    "Searching for your gorgeous face...",
+    "Adjusting parameters for perfection...",
+  ]);
 
   const pickMessage = (list: string[]) =>
     list[Math.floor(Math.random() * list.length)];
 
-  // 🔌 Connect WebSocket when active
+  // Connect WebSocket when active
   useEffect(() => {
     if (isActive) {
-      setStatus("connecting");
-      console.log("🔌 Connecting to backend WebSocket...");
       wsClient.current = new WSClient("ws://localhost:8000/ws/video");
       wsClient.current.connect(
-        (data) => {
-          console.log("📦 Frame response received:", data);
+        (dataRaw) => {
+          const data = dataRaw as {
+            image?: string;
+            roi?: { x: number; y: number; w: number; h: number };
+          };
           setFrameCount((current) => current + 1);
           if (data?.image) {
             setProcessedFrame(data.image);
@@ -56,37 +58,23 @@ export default function Home() {
           }
           setAiFeedback(
             data?.roi
-              ? pickMessage(positiveMessages)
-              : pickMessage(angleMessages),
+              ? pickMessage(positiveMessages.current)
+              : pickMessage(angleMessages.current),
           );
         },
         () => {
-          console.log("✅ WebSocket connected, live detection running");
           setStatus("live");
         },
         () => {
-          console.log("⚠️ WebSocket closed");
-          setStatus(isActive ? "connecting" : "idle");
-          setAiFeedback(
-            isActive ? "🔄 Reconnecting to the model..." : "Camera off.",
-          );
+          if (wsClient.current) {
+            setStatus("error");
+          }
         },
         () => {
-          console.log("❌ WebSocket error");
           setStatus("error");
-          setAiFeedback("⚠️ Backend connection issue");
+          setAiFeedback("Backend connection issue.");
         },
       );
-    } else {
-      if (wsClient.current) {
-        wsClient.current.disconnect();
-        wsClient.current = null;
-      }
-      setStatus("idle");
-      setProcessedFrame(null);
-      setRoi(null);
-      setAiFeedback("Ready when you are.");
-      setFrameCount(0);
     }
 
     return () => {
@@ -96,117 +84,146 @@ export default function Home() {
     };
   }, [isActive]);
 
-  // 📤 Send frame to backend
   const handleFrame = useCallback((base64Image: string) => {
     if (
       wsClient.current &&
       wsClient.current.socket?.readyState === WebSocket.OPEN
     ) {
-      console.log("📤 Sending frame to backend", base64Image.length);
       wsClient.current.send(base64Image);
     }
   }, []);
 
-  const showOutput = status !== "idle";
-  const isAnalyzing =
-    status === "connecting" || (status === "live" && !processedFrame);
+  const showOutput = status !== "idle" && status !== "error";
+
+  const handleToggle = () => {
+    if (!isActive) {
+      setStatus("connecting");
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+      if (wsClient.current) {
+        wsClient.current.disconnect();
+        wsClient.current = null;
+      }
+      setStatus("idle");
+      setProcessedFrame(null);
+      setRoi(null);
+      setAiFeedback("Looking for your cool face...");
+      setFrameCount(0);
+    }
+  };
 
   return (
-    <main className="min-h-screen px-4 py-4 md:px-8 md:py-6">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 md:gap-5">
-        {/* 🏷️ Header */}
-        <header className="neubrutalism-box w-full bg-white px-4 py-4 md:px-6 md:py-5">
+    <main className="min-h-screen px-4 py-8 md:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6">
+        {/* Header */}
+        <header className="neobrutalism-box w-full px-6 py-5 bg-[#ff90e8]">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-2">
-              <h1 className="neubrutalism-title text-2xl font-extrabold md:text-4xl">
-                MEGA·AI FACE DETECT
-              </h1>
-              <p className="max-w-2xl text-sm font-medium leading-6 md:text-base">
-                Premium real-time face tracking with live ROI feedback, clean
-                motion, and a playful AI vibe.
-              </p>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src="/mega-ai-logo.svg"
+                  alt="Mega AI Logo"
+                  className="h-10 object-contain"
+                  onError={(e) => {
+                    // Fallback in case logo doesn't exist yet
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              </div>
             </div>
             <Controls
               isActive={isActive}
-              onToggle={() => setIsActive(!isActive)}
+              onToggle={handleToggle}
               status={status}
             />
           </div>
         </header>
 
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-5">
-          {/* INPUT */}
-          <div className="order-2 flex flex-col gap-3 md:order-1 md:col-span-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-black uppercase tracking-[0.22em] md:text-base">
-                Input Preview
-              </h2>
-              <span className="rounded-none border-2 border-black bg-[#fff3a6] px-2 py-1 text-[10px] font-black uppercase shadow-[2px_2px_0_#000] md:text-xs">
-                Camera
-              </span>
-            </div>
-            <div className="overflow-hidden neubrutalism-box bg-white p-2 md:p-3">
-              <Camera isActive={isActive} onFrame={handleFrame} />
-            </div>
-          </div>
-
-          {/* OUTPUT */}
-          <div className="order-1 flex flex-col gap-3 md:order-2 md:col-span-8">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <h2 className="text-sm font-black uppercase tracking-[0.22em] md:text-base">
-                  Output Stream
+        {isActive || status !== "idle" ? (
+          <section className="grid grid-cols-1 gap-6 lg:grid-cols-12 md:items-start">
+            {/* INPUT (30%) */}
+            <div className="order-2 flex flex-col gap-3 lg:order-1 lg:col-span-4">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-sm font-bold uppercase tracking-wider">
+                  Source
                 </h2>
-                <p className="text-xs font-medium text-black/70 md:text-sm">
-                  {isAnalyzing
-                    ? "AI analyzing..."
-                    : status === "live"
-                      ? "Live output ready"
-                      : "Waiting for camera..."}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-[2px_2px_0_#000]">
-                <span
-                  className={`h-2.5 w-2.5 ${status === "live" ? "bg-green-500" : status === "connecting" ? "bg-yellow-400" : "bg-red-500"}`}
-                />
-                <span className="text-xs font-black uppercase md:text-sm">
-                  {status === "live"
-                    ? "Live"
-                    : status === "connecting"
-                      ? "Connecting"
-                      : status === "error"
-                        ? "Off"
-                        : "Off"}
+                <span className="neobrutalism-box !border-2 bg-white px-2 py-0.5 text-[10px] font-bold uppercase">
+                  Webcam
                 </span>
               </div>
+              <div className="w-full neobrutalism-box overflow-hidden bg-white p-2">
+                <Camera isActive={isActive} onFrame={handleFrame} />
+              </div>
             </div>
 
-            <VideoFeed
-              imageSrc={processedFrame}
-              roi={roi}
-              isActive={showOutput}
-              status={status}
-              frameCount={frameCount}
-              aiFeedback={aiFeedback}
+            {/* OUTPUT (70%) */}
+            <div className="order-1 flex flex-col gap-3 lg:order-2 lg:col-span-8">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-sm font-bold uppercase tracking-wider">
+                  Live Feed
+                </h2>
+                <span
+                  className={`neobrutalism-box !border-2 px-2 py-0.5 text-[10px] font-bold uppercase ${status === "live" ? "bg-[#22c55e] " : "bg-white text-black"}`}
+                >
+                  {status === "live" ? "Processing" : "Standby"}
+                </span>
+              </div>
+
+              <VideoFeed
+                imageSrc={processedFrame}
+                roi={roi}
+                isActive={showOutput}
+                status={status}
+                frameCount={frameCount}
+                aiFeedback={aiFeedback}
+                onToggle={handleToggle}
+              />
+            </div>
+          </section>
+        ) : (
+          <section className="flex flex-col items-center justify-center py-20 px-4 min-h-[50vh] text-center gap-6">
+            <Image
+              src="/dance.gif"
+              alt="Dancing Animation"
+                width={200}
+                height={200}
+             
             />
+            <h2 className="text-2xl  font-bold uppercase tracking-tight max-w-xl leading-tight">
+              Start camera to see your cool face 😎
+            </h2>
+            <button
+              onClick={handleToggle}
+              className="neobrutalism-btn neobrutalism-btn-primary mt-4 py-3 px-8 text-lg flex gap-2 items-center cursor-pointer hover transition-colors"
+            >
+              Start Camera
+            </button>
+          </section>
+        )}
 
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="border-2 border-black bg-white px-3 py-2 text-xs font-black uppercase shadow-[2px_2px_0_#000]">
-                {roi
-                  ? `Face Detected · ${roi.w}x${roi.h}`
-                  : isAnalyzing
-                    ? "AI analyzing..."
-                    : "No face detected"}
-              </span>
-              <span className="border-2 border-black bg-[#fff3a6] px-3 py-2 text-xs font-bold shadow-[2px_2px_0_#000]">
-                {aiFeedback}
-              </span>
-              <span className="border-2 border-black bg-white px-3 py-2 text-xs font-black uppercase shadow-[2px_2px_0_#000]">
-                Frames {frameCount}
-              </span>
-            </div>
-          </div>
-        </section>
+        {/* Footer */}
+        <footer className="mt-8 mb-4 border-t-4 border-black pt-4 flex flex-col md:flex-row items-center justify-between gap-4 font-bold uppercase text-sm">
+          <a
+            href="https://github.com/StarDust130/mega-ai-face-detection"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="neobrutalism-btn text-xs bg-[#e2e8f0]"
+          >
+            ⭐ View on GitHub
+          </a>
+          <span>
+            Created by{" "}
+            <a
+              href="https://chandrashekhar.me"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#ef4444] neobrutalism-box !border-2 px-2 py-1 hover:bg-[#ef4444] hover: transition-colors"
+            >
+              Chandrashekhar
+            </a>
+          </span>
+        </footer>
       </div>
     </main>
   );
