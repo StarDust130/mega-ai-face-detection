@@ -30,44 +30,54 @@ export default function Home() {
   const angleMessages = useRef([]);
 
   // Connect WebSocket when active
-  useEffect(() => {
-    if (isActive) {
-      wsClient.current = new WSClient(process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws");
-      wsClient.current.connect(
-        (dataRaw) => {
-          const data = dataRaw as {
-            image?: string;
-            roi?: { x: number; y: number; w: number; h: number };
-          };
-          setFrameCount((current) => current + 1);
-          if (data?.image) {
-            setProcessedFrame(data.image);
-          }
-          if (Object.prototype.hasOwnProperty.call(data ?? {}, "roi")) {
-            setRoi(data.roi ?? null);
-          }
-        },
-        () => {
-          setStatus("live");
-        },
-        () => {
-          if (wsClient.current) {
-            setStatus("error");
-          }
-        },
-        () => {
-          setStatus("error");
-          setAiFeedback("Backend connection issue.");
-        },
-      );
-    }
+useEffect(() => {
+  if (isActive) {
+    const WS_URL =
+      process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws/video";
 
-    return () => {
-      if (wsClient.current) {
-        wsClient.current.disconnect();
-      }
-    };
-  }, [isActive]);
+    console.log("Connecting to WS:", WS_URL);
+
+    wsClient.current = new WSClient(WS_URL);
+
+    wsClient.current.connect(
+      (dataRaw) => {
+        const data = dataRaw as {
+          image?: string;
+          roi?: { x: number; y: number; w: number; h: number };
+        };
+
+        setFrameCount((current) => current + 1);
+
+        if (data?.image) {
+          setProcessedFrame(data.image);
+        }
+
+        if ("roi" in (data ?? {})) {
+          setRoi(data.roi ?? null);
+        }
+      },
+      () => {
+        console.log("WS Connected ✅");
+        setStatus("live");
+      },
+      () => {
+        console.log("WS Closed ❌");
+        setStatus("error");
+      },
+      (err) => {
+        console.error("WS Error ❌", err);
+        setStatus("error");
+        setAiFeedback("Backend connection issue.");
+      },
+    );
+  }
+
+  return () => {
+    if (wsClient.current) {
+      wsClient.current.disconnect();
+    }
+  };
+}, [isActive]);
 
   const handleFrame = useCallback((base64Image: string) => {
     if (
