@@ -1,0 +1,21 @@
+# Global Git
+.git
+.gitignore
+
+# Virtual Environments & Build outputs
+node_modules/
+backend/venv/
+backend/env/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Caches
+backend/__pycache__/
+.idea/
+.vscode/
+
+# OS/Logs
+.DS_Store
+npm-debug.log*
+yarn-error.log*
