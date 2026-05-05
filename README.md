@@ -1,13 +1,12 @@
 # 🎬 Mega AI Face Detection
 
-
 <div align="center">
   <img src="./frontend/public/bg.gif" width="100%" alt="Mega AI Face Detection Demo">
 </div>
 
   <br />
 
-  > Show your face, get AI-powered compliments! ✨ Real-time face detection with WebSocket streaming.
+> Show your face, get AI-powered compliments! ✨ Real-time face detection with WebSocket streaming.
 
   <br />
 
@@ -21,7 +20,6 @@
 </div>
 
 ---
-
 
 ## ✨ What It Does
 
@@ -39,9 +37,10 @@
 ![Architecture](./frontend/public/architecture.png)
 
 ---
+
 <div id="tech-stack"></div>
 
-###  🛠️ Tech Used
+### 🛠️ Tech Used
 
 - **Frontend**: Next.js 16 + React 19 + Tailwind
 - **Backend**: FastAPI + Python 3.10
@@ -52,43 +51,32 @@
 
 ## 🚀 5-Minute Setup <img src="./frontend/public/run.webp" width="30" style="display:inline-block; margin-left:8px;" />
 
-### Docker (Easiest)
+### 🐳 Docker Setup 
+
+No local dependencies or external database required! The entire stack (Next.js Frontend, FastAPI Backend, PostgreSQL Database) spins up with a single command.
 
 ```bash
+# 1. Clone the repository
 git clone https://github.com/StarDust130/mega-ai-face-detection.git
 cd mega-ai-face-detection
-cp .env.example .env
-# Edit .env with your Supabase DATABASE_URL
-docker-compose up --build
-# Open http://localhost:3000
+
+# 2. Start the entire application using Docker Compose
+docker-compose up --build -d
+
+# 3. Everything is running!
+# 🌐 Frontend: http://localhost:3000
+# ⚙️ Backend API: http://localhost:8000
+# 🗄️ Database: localhost:5432
 ```
 
-### Local Setup
-
-**Backend:**
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-**Frontend:**
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
+That's it! Your PostgreSQL database, FastAPI engine, and Next.js interface communicate seamlessly.
 
 ---
 
 ## 📝 .env Example
 
 ```env
-# Get this from Supabase.com
+# Use Local Database URL for development
 DATABASE_URL=postgresql://user:pass@host:5432/dbname
 NEXT_PUBLIC_API_URL=ws://localhost:8000
 ```
@@ -146,10 +134,11 @@ SELECT * FROM roi_data LIMIT 5;
 
 ## 🤖 AI Stack
 
-| Intelligence | Core Contribution |
-| :--- | :--- |
-| ✨ **Gemini 3.1** | UI/UX refinement, edge-case generation  |
+| Intelligence       | Core Contribution                      |
+| :----------------- | :------------------------------------- |
+| ✨ **Gemini 3.1**  | UI/UX refinement, edge-case generation |
 | 🧠 **ChatGPT 5.3** | Logic optimization, complex reasoning  |
+
 ---
 
 ## ⭐ Like It?

@@ -18,6 +18,7 @@ const nextConfig: NextConfigWithEslint = {
     // allow all external images (disables optimization)
     unoptimized: true,
   },
+  output: "standalone",
 };
 
 export default nextConfig;
