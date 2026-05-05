@@ -46,7 +46,6 @@
 - **Frontend**: Next.js 16 + React 19 + Tailwind
 - **Backend**: FastAPI + Python 3.10
 - **Database**: PostgreSQL (Supabase)
-- **AI**: Google MediaPipe
 - **Deploy**: Vercel + DigitalOcean + Supabase
 
 ---
